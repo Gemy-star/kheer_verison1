@@ -1,0 +1,146 @@
+{% extends 'dashmain.html' %}
+{% load static %}
+
+{% block title %} مشرف || خير السعوديه{% endblock title %}
+
+
+{% block body %}
+    <div class="main-content-inner center">
+   <div class="row">
+       <div class="col-md-3 mr-2">
+                   <div class="card">
+        <div class="card-title">
+       <center>   <p style="font-size: larger;" class="text-cursive text-green" > عدد الحالات</p> </center>
+        </div>
+        <div class="card-body" id="cases_count">
+
+        </div>
+    </div>
+
+       </div>
+              <div class="col-md-3 mr-2">
+                   <div class="card">
+        <div class="card-title">
+       <center>   <p style="font-size: larger;" class="text-cursive text-green" > عدد الموظفين</p> </center>
+        </div>
+        <div class="card-body" id="emp_count">
+
+        </div>
+    </div>
+
+       </div>
+              <div class="col-md-3 mr-2">
+                   <div class="card">
+        <div class="card-title">
+       <center>   <p style="font-size: larger;" class="text-cursive text-green" > عدد الجمعيات</p> </center>
+        </div>
+        <div class="card-body" id="found_count">
+
+        </div>
+    </div>
+
+       </div>
+
+   </div>
+
+</div>
+
+   <div class="main-content-inner">
+<div class="row">
+<div class="col-md-6 ">
+        <div class="card">
+        <div class="card-title">
+       <center>   <p style="font-size: larger;" class="body-font text-green" id="found_name">خير السعوديه</p> </center>
+        </div>
+        <div class="card-body" id="found_body">
+
+        </div>
+    </div>
+
+
+</div>
+     <div class="col-md-6 ">
+    <div class="card">
+        <div class="card-title">
+       <center>   <p style="font-size: larger;" class="text-cursive text-green" id="employee_name">خير السعوديه</p> </center>
+        </div>
+        <div class="card-body" id="employee_body">
+
+        </div>
+    </div>
+</div>
+
+</div>
+   </div>
+
+{% endblock body %}
+
+    {% block  javascript %}
+        <script>
+            var id =sessionStorage.getItem('user_id');
+            var empolyees;
+            var fondations;
+            var cases;
+            var needy_id;
+            $(() => {
+                $.ajax({
+                    method: 'GET',
+                    url: '{% url 'get-found-emp-info' %}',
+                    data: {
+                        'user_id': id,
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        empolyees = JSON.parse(data.employee);
+                        fondations = JSON.parse(data.foundation);
+                        cases = JSON.parse(data.cases);
+                        console.log(cases)
+                        $("#found_name").empty();
+                        $("#found_name").append(fondations[0].fields.name);
+                        $("#found_body").empty();
+                        $("#found_body").append(`    <h2 class="text-cursive h5 text-red  " >الأسم</h2>
+                                       <p class="text-cursive h5 text-black " >${fondations[0].fields.name}</p>
+                                       <hr/>
+  <h2 class="text-cursive h5 text-red  " >العنوان</h2>
+                                       <p class="text-cursive h5 text-black " >${fondations[0].fields.address}</p>
+                                       <hr/>
+  <h2 class="text-cursive h5 text-red  " >الهاتف</h2>
+                                       <p class="text-cursive h5 text-black " >${fondations[0].fields.phone}</p>
+                                       <hr/>
+  <h2 class="text-cursive h5 text-red  " >الأهداف</h2>
+                                       <p class="text-cursive h5 text-black " >${fondations[0].fields.description}</p>
+                                       <hr/>`);
+                        $("#employee_name").empty();
+                        $("#employee_name").append(empolyees[0].fields.first_name);
+                        $("#cases_count").empty();
+                        $("#cases_count").append(data.cases_count);
+                        $("#emp_count").empty();
+                        $("#emp_count").append(data.emp_count);
+                        $("#found_count").empty()
+                        $("#found_count").append(data.found_count)
+                        $("#employee_body").empty();
+                        $("#employee_body").append(`
+                           <h2 class="text-cursive h5 text-red  " >الأسم</h2>
+                                       <p class="text-cursive h5 text-black " >${empolyees[0].fields.first_name}</p>
+                                       <hr/>
+  <h2 class="text-cursive h5 text-red  " >العنوان</h2>
+                                       <p class="text-cursive h5 text-black " >${empolyees[0].fields.address}</p>
+                                       <hr/>
+  <h2 class="text-cursive h5 text-red  " >الهاتف</h2>
+                                       <p class="text-cursive h5 text-black " >${empolyees[0].fields.phone}</p>
+                                       <hr/>
+  <h2 class="text-cursive h5 text-red  " >البريد الألكترونى</h2>
+                                       <p class="text-cursive h5 text-black " >${empolyees[0].fields.email}</p>
+                                       <hr/>
+                        `)
+
+                    },
+                    error: function (error) {
+                        alert(error.responseText)
+                    }
+                });
+
+            });
+        </script>
+
+    {% endblock javascript %}

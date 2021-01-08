@@ -1,0 +1,87 @@
+{% extends 'dashmain.html' %}
+
+{% block title %} تفاصيل محتاج {% endblock title %}
+
+
+{% block body %}
+
+    <div class="card center">
+    <div class="card-header">
+        <center><p class="body text-green">تفاصيل الجمعيه</p></center>
+    </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="site-section py-12 bg-white">
+
+                    <div class="row">
+
+                            <div class="col-md-4">
+                                <div class="card" style="width: 50rem;">
+                                <div class="card-header">
+                                        <h6 class="text-cursive h5 text-red">{{ needy.name }}</h6>
+
+                                </div>
+                                    <div class="card-body">
+                                        <h5 class="text-cursive h5 text-red">رقم الجمعيه</h5>
+                                        <h6 class="text-cursive h5 text-black">{{ found.pk }}</h6>
+                                    <hr/>
+                                        <h5 class="text-cursive h5 text-red">الهاتف</h5>
+                                        <h6 class="text-cursive h5 text-black">{{ found.phone }}</h6>
+                                                                        <hr/>
+
+                                        <h5 class="text-cursive h5 text-red">الوصف</h5>
+
+                                        <p class="text-cursive h5 text-black">{{ found.description }}</p>
+                                    <hr/>
+
+                                            <h5 class="text-cursive h5 text-red">العنوان</h5>
+
+                                        <p class="text-cursive h5 text-black">{{ found.address }}</p>
+                                                                            <hr/>
+
+                                                                                  <h2 class="text-cursive h5 text-red">الموظفيين </h2>
+
+                                     <hr/>
+                                        {% for emp in emps %}
+                                          <h5 class="text-cursive h5 text-red">الأسم </h5>
+
+                                        <p class="text-cursive h5 text-black">{{ emp.first_name }} {{ emp.last_name }}</p>
+
+                                          <h5 class="text-cursive h5 text-red">الهاتف</h5>
+
+                                        <p class="text-cursive h5 text-black">{{ emp.phone }}</p>
+                                                                                                                        <hr/>
+
+                                        {% endfor %}
+                                        <h2 class="text-cursive h5 text-red">الحالات</h2>
+<hr/>
+                                    {% for case in cases %}
+                                        <h5 class="text-cursive h5 text-red">الأسم</h5>
+
+                                        <p class="text-cursive h5 text-black">{{ case.name }}</p>
+                                        <hr/>
+                                         <h5 class="text-cursive h5 text-red">الهويه</h5>
+
+                                        <p class="text-cursive h5 text-black">{{ case.national_id }}</p>
+                                    {% endfor %}
+
+
+                                     <hr/>
+
+
+<hr/>
+                                    </div>
+                                <div class="card-footer">
+                                        <a class="btn btn-teal btn-sm body-font" href="{% url 'needy-list' %}"><span class="fa fa-backward"></span> الرجوع</a>
+                                </div>
+                                </div>
+                            </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}

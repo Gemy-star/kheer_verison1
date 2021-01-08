@@ -1,0 +1,105 @@
+{% extends 'dashmain.html' %}
+
+{% block title %} قائمة الراعيين {% endblock title %}
+
+
+{% block body %}
+
+    <div class="card center">
+    <div class="card-header">
+        <center><p class="body-font text-green">قائمة الراعيين</p></center>
+    </div>
+        <div class="container">
+            <div class="row">
+                <div class="site-section py-12 bg-white">
+
+                    <div class="card-body">
+
+                        {% for provider in providers %}
+                            <div class="col-md-4">
+                                <div class="card" style="width: 20rem;">
+                                    <form>
+                                        {% csrf_token %}
+                                        <input type="hidden" id="provider_id" value="{{ provider.pk }}">
+                                    </form>
+                                    <div class="card-body">
+                                        <h5 class="text-cursive h5 text-red">رقم الجمعيه</h5>
+                                        <h6 class="text-cursive h5 text-black">{{ provider.pk }}</h6>
+                                        <h5 class="text-cursive h5 text-red">الأسم</h5>
+                                        <h6 class="text-cursive h5 text-black">{{ provider.name }}</h6>
+                                        <h5 class="text-cursive h5 text-red">العنوان</h5>
+
+                                        <p class="text-cursive h5 text-black">{{ provider.address }}</p>
+
+                                    </div>
+                                    <div class="card-footer">
+                                        {% if request.user.user_type == 4 or request.user.user_type == 1 %}
+                                            <a class="btn btn-teal btn-sm body-font"
+                                               href="{% url 'found-detail' provider.pk %}"><span
+                                                    class="fa fa-address-card"></span></a>
+                                            <button class="btn btn-teal btn-sm body-font" id="btn_delete" type="button">
+                                                <span class="fa fa-trash"></span></button>
+                                        {% endif %}
+                                        <a class="btn btn-teal btn-sm body-font"
+                                           href="{% url 'found-detail' provider.pk %}"><span
+                                                class="fa fa-pencil "></span></a>
+                                    </div>
+                                </div>
+                                <hr/>
+                            </div>
+
+                        {% endfor %}
+                    </div>
+                    <hr/>
+                <div class="card-footer">
+                                        <a class="btn btn-success body-font" href="{% url 'home-page' %}"><span class="fa fa-backward "></span>الرجوع</a>
+
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}
+
+{% block javascript %}
+    <script>
+        $(() => {
+            $("#btn_delete").on('click', event => {
+                event.preventDefault();
+                $.ajax({
+                    method: 'POST',
+                    url: '{% url 'provider-delete' %}',
+                    data: {
+                        'provider_id': $('#provider_id').val(),
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    success: function (data) {
+                        if (data.data === 1) {
+                            swal({
+                                title: "تم",
+                                text: "تم  بنجاح",
+                                icon: "success",
+                                button: "إغلاق",
+                            });
+                            window.location.reload();
+                        } else {
+                            swal({
+                                title: "خطا",
+                                text: "من فضلك راجع البيانات",
+                                icon: "error",
+                                button: "إغلاق",
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        alert(error.responseText)
+                    }
+                });
+
+            });
+
+        });
+    </script>
+
+{% endblock javascript %}

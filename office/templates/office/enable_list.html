@@ -1,0 +1,96 @@
+{% extends 'dashmain.html' %}
+
+{% block title %} قائمة المرشحين للتمكين {% endblock title %}
+
+
+{% block body %}
+
+    <div class="card center">
+    <div class="card-header">
+         <center><p class="body-font text-green"> المرشحين للتمكين</p></center>
+    </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="site-section py-12 bg-white">
+
+
+                    <div class="row">
+
+                        {% for needy in enable_needies %}
+                            <div class="col-md-4">
+                                <div class="card" style="width: 20rem;">
+                                    <form >
+                                    {% csrf_token %}
+                                    <input type="hidden" id="needy_id" value="{{ needy.pk }}">
+                                        </form>
+                                    <div class="card-body">
+                                        <h5 class="text-cursive h5 text-red">رقم الحاله</h5>
+                                        <h6 class="text-cursive h5 text-black">{{ needy.case_number }}</h6>
+                                        <h5 class="text-cursive h5 text-red">الهويه</h5>
+                                        <h6 class="text-cursive h5 text-black">{{ needy.national_id }}</h6>
+                                        <h5 class="text-cursive h5 text-red">السكن</h5>
+
+                                        <p class="text-cursive h5 text-black">{{ needy.home }}</p>
+
+                                    </div>
+                                    <div class="card-footer">
+                                      {% if request.user.user_type == 2 or request.user.user_type == 1 or request.user.user_type == 3 %}
+                                        <a class="btn btn-success btn-sm body-font" href="{% url 'needy-detail' needy.pk %}"><span class="fa fa-archive"></span></a>
+                                        <button class="btn btn-danger btn-sm body-font" id="btn_delete" type="button"><span class="fa fa-trash"></span></button>
+                                         {% endif  %}
+                                        <a class="btn btn-info btn-sm body-font" href="{% url 'needy-detail' needy.pk %}"><span class="fa fa-pencil "></span></a>
+                                    </div>
+                                </div>
+                                <hr/>
+                            </div>
+
+                        {% endfor %}
+                    </div>
+                                                      <h2 class="text-cursive h5 text-red">الأطفال</h2>
+                        <hr/>
+                                <div class="row">
+
+                    {% for child in children %}
+
+
+                                                    <div class="col-md-4">
+                                <div class="card" style="width: 20rem;">
+                                    <form >
+                                    {% csrf_token %}
+                                    <input type="hidden" id="child_id" value="{{ child.pk }}">
+                                        </form>
+                                    <div class="card-body">
+                                        <h5 class="text-cursive h5 text-red">رقم الحاله</h5>
+                                        <h6 class="text-cursive h5 text-black">{{ child.pk }}</h6>
+                                        <h5 class="text-cursive h5 text-red">العمر</h5>
+                                        <h6 class="text-cursive h5 text-black">{{ child.age }}</h6>
+                                        <h5 class="text-cursive h5 text-red">النوع</h5>
+
+                                        <p class="text-cursive h5 text-black">{{ child.gender }}</p>
+
+                                    </div>
+                                    <div class="card-footer">
+{#                                      {% if request.user.user_type == 2 or request.user.user_type == 1  %}#}
+{#                                        <a class="btn btn-teal btn-sm body-font" href="{% url 'needy-detail' needy.pk %}"><span class="fa fa-address-card"></span></a>#}
+{#                                        <button class="btn btn-teal btn-sm body-font" id="btn_delete" type="button"><span class="fa fa-trash"></span></button>#}
+{#                                         {% endif  %}#}
+                                        <a class="btn btn-success btn-sm body-font" href="#"><span class="fa fa-pencil "></span></a>
+                                    </div>
+                                </div>
+                                <hr/>
+                            </div>
+
+                    {% endfor %}
+                </div>
+                          <hr/>
+                <div class="card-footer">
+                                                            <a class="btn btn-success btn-lg body-font" href="{% url 'home-employee' %}"><span class="fa fa-backward "></span>الرجوع</a>
+
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}
+

@@ -1,0 +1,92 @@
+{% extends 'dashmain.html' %}
+
+{% block title %} تفاصيل الحاله {% endblock title %}
+
+
+{% block body %}
+
+    <div class="card center">
+    <div class="card-header">
+        <center><p class="body-font text-green">تفاصيل الحاله</p></center>
+    </div>
+        <div class="container">
+            <div class="card-body">
+                <div class="site-section py-12 bg-white">
+
+
+                    <div class="row">
+
+                            <div class="col-md-4">
+                                <div class="card" style="width: 50rem;">
+                                <div class="card-header">
+                                        <h6 class="text-cursive h5 text-red">{{ needy.name }}</h6>
+
+                                </div>
+                                    <div class="card-body">
+                                        <h5 class="text-cursive h5 text-red">رقم الحاله</h5>
+                                        <h6 class="text-cursive h5 text-black">{{ needy.case_number }}</h6>
+                                    <hr/>
+                                        <h5 class="text-cursive h5 text-red">الهويه</h5>
+                                        <h6 class="text-cursive h5 text-black">{{ needy.national_id }}</h6>
+                                                                        <hr/>
+
+                                        <h5 class="text-cursive h5 text-red">السكن</h5>
+
+                                        <p class="text-cursive h5 text-black">{{ needy.home }}</p>
+                                    <hr/>
+
+                                            <h5 class="text-cursive h5 text-red">الهاتف</h5>
+
+                                        <p class="text-cursive h5 text-black">{{ needy.phone }}</p>
+                                                                            <hr/>
+
+                                          <h5 class="text-cursive h5 text-red">مصدر الدخل </h5>
+
+                                        <p class="text-cursive h5 text-black">{{ needy.source_income }}</p>
+                                                                            <hr/>
+
+                                          <h5 class="text-cursive h5 text-red">الحاله الصحيه</h5>
+
+                                        <p class="text-cursive h5 text-black">{{ needy.health_status }}</p>
+                                     <hr/>
+
+                                          <h5 class="text-cursive h5 text-red">الحالة الاجتماعية</h5>
+
+                                        <p class="text-cursive h5 text-black">{{ needy.status }}</p>
+                                    <hr/>
+
+                                         <h5 class="text-cursive h5 text-red"> العمر</h5>
+
+                                        <p class="text-cursive h5 text-black">{{ needy.age }}</p>
+                                    <hr/>
+                                        <h1 class="text-cursive h5 text-red"> المعالين</h1>
+<hr/>
+                                        {% for dep in deps %}
+                                         <h5 class="text-cursive h5 text-red"> الجنس</h5>
+
+                                        <p class="text-cursive h5 text-black">{{ dep.gender }}</p>
+                                               <h5 class="text-cursive h5 text-red"> العمر</h5>
+
+                                        <p class="text-cursive h5 text-black">{{ dep.age }}</p>
+                                                 <h5 class="text-cursive h5 text-red"> المرحله الدراسيه</h5>
+
+                                        <p class="text-cursive h5 text-black">{{ dep.stage }}</p>
+                                            <hr/>
+                                            <br/>
+                                        {% endfor  %}
+
+                                    </div>
+                                <div class="card-footer">
+                                        <a class="btn btn-teal btn-sm body-font" href="{% url 'needy-list' %}"><span class="fa fa-backward"></span> الرجوع</a>
+                                </div>
+                                </div>
+                            </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}

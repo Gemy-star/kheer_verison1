@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo.ico' %}">
+
+    <title> {% block title %} {% endblock title %}</title>
+
+    <link href="https://fonts.googleapis.com/css?family=DM+Sans:300,400,700|Indie+Flower" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Almarai&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/fonts/icomoon/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.fancybox.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fonts/flaticon/font/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+    {% block style %} {% endblock style %}
+</head>
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+<div class="site-wrap" id="home-section">
+
+    <div class="site-mobile-menu site-navbar-target">
+        <div class="site-mobile-menu-header">
+            <div class="site-mobile-menu-close mt-3">
+                <span class="icon-close2 js-menu-toggle"></span>
+            </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+    </div>
+    {% include 'navbar.html' %}
+     {% block content %}
+
+    {% endblock content %}
+
+    {% include 'footer.html' %}
+
+
+</div>
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery-migrate-3.0.0.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.sticky.js' %}"></script>
+    <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
+    <script src="{% static 'js/jquery.fancybox.min.js' %}"></script>
+    <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'js/aos.js' %}"></script>
+    <script src="{% static 'js/sweetalert.js' %}"></script>
+
+    <script src="{% static 'js/main.js' %}"></script>
+<script>
+    var size = 20
+    $(() => {
+       $("#inc_size").on('click' , (event) => {
+           event.preventDefault();
+           size = size + 5
+           console.log(size.toString()+"px");
+          $("body").css("font-size", size.toString()+"px");
+
+       });
+        $("#dec_size").on('click' , (event) => {
+           event.preventDefault();
+           size = size - 5
+           console.log(size.toString()+"px");
+          $("body").css("font-size", size.toString()+"px");
+
+       });
+        $("#btn_add").on('click',event => {
+           event.preventDefault();
+                           $.ajax({
+                    method: 'POST',
+                    url: '{% url 'create-contact' %}',
+                    data: {
+                        'name': $('#name').val(),
+                        'message': $('#message').val(),
+                        'address': $('#address').val(),
+                        'phone': $('#phone').val(),
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    success: function (data) {
+                        if (data.data === 1) {
+                            swal({
+                                title: "تم",
+                                text: "تم  بنجاح",
+                                icon: "success",
+                                button: "إغلاق",
+                            });
+                            window.location.href = "{% url 'home-page' %}"
+                        } else {
+                            swal({
+                                title: "خطا",
+                                text: "من فضلك راجع البيانات",
+                                icon: "error",
+                                button: "إغلاق",
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        alert(error.responseText)
+                    }
+                });
+
+
+        });
+
+
+    });
+</script>
+
+{% block javascript %}
+
+{% endblock javascript %}
+</body>
+
+</html>

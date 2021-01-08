@@ -1,0 +1,131 @@
+{% extends 'dashmain.html' %}
+{% load static %}
+
+{% block title %}  البحث   {% endblock title %}
+
+{% block body %}
+<div class="main-content-inner">
+<div class="card">
+    <div class="card-body">
+                <div class="container">
+        <div class="row">
+            <div class="row justify-content-center text-center mb-5 section-2-title">
+                <div class="col-md-6">
+                    <span class="text-cursive h5 text-red body-font" style="font-size: 25px; font-weight: bold;">المستفيدين</span>
+                    <h3 class="text-white text-center body-font text-black">البحث</h3>
+                </div>
+        </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <form method="get">
+            {% csrf_token %}
+         {% for filed in myfilter.form%}
+			   <div class="form-group">
+			   {{filed}}
+			   </div>
+			   {%endfor%}
+		<center>    <button class="btn btn-teal" type="submit"> بحث</button> 	</center>
+		  </form>
+                </div>
+            </div>
+        <div class="row">
+           {% for need in neeedies %}
+                                <div class="col-lg-4">
+                        <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                            <div class="mainflip">
+                                <div class="frontside">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            {% if need.case_type == 1 %}
+                                                <p><img width="70" height="70"
+                                                        src="{% static 'images/electricty.png' %}" alt="card image"></p>
+                                                <h4 class="card-title body-font">دعم الكهرباء</h4>
+                                                <p class="card-text body-font">لتقديم الدعم للحالات التى تريد دعم فى
+                                                    الكهرباء</p>
+                                            {% endif %}
+                                            {% if need.case_type == 2 %}
+                                                <p><img src="{% static 'images/food.png' %}" alt="card image"></p>
+                                                <h4 class="card-title body-font">دعم الغذاء</h4>
+                                                <p class="card-text body-font">لتقديم الدعم للحالات التى تريد دعم فى
+                                                    الطعام</p>
+                                            {% endif %}
+                                            {% if need.case_type == 3 %}
+                                                <p><img src="{% static 'images/education.png' %}" alt="card image"></p>
+                                                <h4 class="card-title body-font">دعم التعليم</h4>
+                                                <p class="card-text">لتقديم الدعم للحالات التى تريد دعم فى التعليم</p>
+                                            {% endif %}
+                                            {% if need.case_type == 4 %}
+                                                <p><img src="{% static 'images/education.png' %}" alt="card image"></p>
+                                                <h4 class="card-title body-font">دعم الماء</h4>
+                                                <p class="card-text body-font">لتقديم الدعم للحالات التى تريد دعم فى
+                                                    الماء</p>
+                                            {% endif %}
+                                            {% if need.case_type == 5 %}
+                                                <p><img src="{% static 'images/money.png' %}" alt="card image"></p>
+                                                <h4 class="card-title body-font">دعم الملبس</h4>
+                                                <p class="card-text body-font">لتقديم الدعم للحالات التى تريد دعم فى
+                                                    الملبس</p>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="backside">
+                                    <div class="card">
+                                        <div class="card-body text-center mt-4">
+                                            <h4 class="card-title body-font">{{ need.name }}</h4>
+                                            <h5 class="body-font text-black"><img src="{% static 'images/coins.png' %}" width="30" height="30">
+                                                {{ need.amount }}</h5>
+                                            <div class="progress">
+  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ need.total_donations  }}"
+  aria-valuemin="0" aria-valuemax="{{ case.case.amount }}" style="background-color: #5DBD7E ; width:50%">
+  </div>
+</div>
+                                            <p class="card-text body-font">{{ need.national_id }}</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+            {% endfor %}
+        </div>
+        </div>
+        </div>
+
+    </div>
+</div>
+
+
+</div>
+
+
+{% endblock body %}
+
+
+{% block javascript %}
+<script>
+$(() => {
+   $("#id_name").addClass('form-control col-6');
+    $("#id_name").attr("placeholder", "بحث بأسم المستفيد");
+      $("#id_data_added").addClass('form-control col-6');
+    $("#id_data_added").attr("placeholder", "بحث بتاريخ الأضافه");
+        $("#id_status").addClass('form-control col-6');
+    $("#id_status").attr("placeholder", "بحث بالحاله الأجتماعيه");
+     $("#id_status").addClass('form-control col-6');
+    $("#id_status").attr("placeholder", "بحث بالحاله الأجتماعيه");
+      $("#id_enablity").addClass('form-control col-6');
+    $("#id_enablity").attr("placeholder", "مرشح للتمكين");
+      $("#id_amount").addClass('form-control col-6');
+          $("#id_amount").attr("placeholder", "مبلغ التبرع ");
+
+      $("#id_dependencies").addClass('form-control col-6');
+  $("#id_name_part").addClass('form-control col-6');
+          $("#id_name_part").attr("placeholder", "بحث بجزء من الأسم ");
+});
+</script>
+
+{% endblock javascript %}
